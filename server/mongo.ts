@@ -8,7 +8,7 @@ const connectToDB = async (): Promise<void> => {
         mongodbURI = process.env['MONGODB_URI'] as string;
     }
     await connect(mongodbURI);
-    console.log(`Conectado a MongoDB (db: ${mongodbURI.split('/').pop()})`);
+    console.log(`Connected to MongoDB (db: ${mongodbURI.split('/').pop()})`);
 };
 
 const disconnectDB = async (): Promise<void> => {
