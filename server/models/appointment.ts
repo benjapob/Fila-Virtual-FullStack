@@ -4,7 +4,7 @@ interface IAppointment {
     code: string,
     reason: string,
     priority: string,
-    appointment: Date,
+    appointmentDate: Date,
     status: string,
     medicalCenter:string,
     doctor:string,
@@ -26,9 +26,9 @@ const appointmentSchema = new Schema<IAppointment>({
         enum: ['High', 'Medium', 'Low'],
         required: true,
     },
-    appointment: {
+    appointmentDate: {
         type: Date,
-        required: true,
+        required:true
     },
     status: {
         type: String,
