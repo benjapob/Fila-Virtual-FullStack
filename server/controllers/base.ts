@@ -8,7 +8,7 @@ abstract class BaseCtrl<T> {
     getAll = async (req:Request, res: Response) => {
         try {
             const docs = await this.model.find({});
-            return res.sendStatus(200).json(docs);
+            return res.status(200).json(docs);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});        
         }
@@ -18,7 +18,7 @@ abstract class BaseCtrl<T> {
     count = async(req:Request, res:Response) => {
         try {
             const count = await this.model.countDocuments();
-            return res.sendStatus(200).json(count);
+            return res.status(200).json(count);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});
         }
@@ -28,7 +28,7 @@ abstract class BaseCtrl<T> {
     get = async (req:Request, res: Response) => {
         try {
             const doc = await this.model.findOne({_id: req.params['id']});
-            return res.sendStatus(200).json(doc);
+            return res.status(200).json(doc);
         } catch (error) {            
             return res.status(400).json({error:(error as Error).message});        
         }
@@ -38,7 +38,7 @@ abstract class BaseCtrl<T> {
     insert = async (req:Request, res: Response) => {
         try {
             const obj = await new this.model(req.body).save();
-            return res.sendStatus(201).json(obj);
+            return res.status(201).json(obj);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});      
         }
@@ -48,7 +48,7 @@ abstract class BaseCtrl<T> {
     update = async (req:Request, res: Response) => {
         try {
             const obj = await this.model.findOneAndUpdate({_id: req.params['id']}, req.body, {new:true});
-            return res.sendStatus(200).json(obj);
+            return res.status(200).json(obj);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});      
         }

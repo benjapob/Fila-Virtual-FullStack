@@ -4,9 +4,8 @@
   "description": "Proyecto de Angular Full Stack que usa Angular, Express, Mongoose y Node.",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "dev": "concurrently \"ng serve --open\" \"ts-node-dev server/app.ts\" ",
+    "build": "ng build && tsc -p server",
     "test": "ng test"
   },
   "private": true,
@@ -19,6 +18,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "concurrently": "^9.2.0",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "moment": "^2.30.1",
