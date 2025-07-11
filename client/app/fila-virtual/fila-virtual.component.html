@@ -1,0 +1,63 @@
+<div class="contenedor">
+    <div class="row container-fluid">
+        
+        <!-- Items Pendientes -->
+        <div class="col-md-8">
+            <div class="row" style="flex-direction: column;">
+                <h2 class="text-center text-white">Pendientes</h2>
+            </div>
+            <!-- Si hay items, armo las tarjetas -->
+            <!-- Se usa trackBy para mejorar el rendimiento -->
+            <div class="row mb-3" *ngFor="let pendiente of pendientesArray trackBy: trackById" @listAnimation>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body text-left">
+                                        <div class="row icono">
+                                            <i class="fa-regular fa-file-lines"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3 class="numero">{{pendiente.numeroTurno}} - {{pendiente.paciente}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items En Proceso -->
+        <div class="col-md-4">
+            <div class="row" style="flex-direction: column;">
+                <h2 class="text-center text-white">En Proceso</h2>
+            </div>
+            <!-- Si hay items, armo las tarjetas -->
+            <!-- Se usa trackBy para mejorar el rendimiento -->
+            <div class="row mb-3" *ngFor="let enProceso of enProcesoArray trackBy: trackById" @listAnimation2>
+                <div class="col-md-12">
+                    <!-- Carta info -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body text-left">
+                                        <div class="row icono">
+                                            <i class="fa-regular fa-file-lines"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3 class="numero">{{enProceso.numeroTurno}} - {{enProceso.paciente}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <h4 class="modal-title text-black" id="modal-basic-title"><strong>Nuevo Turno</strong></h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="turnosForm">
+        
+        <div class="mb-3">
+            <label for="paciente">Paciente</label>
+            <div class="input-group">
+                <input formControlName="paciente" id="paciente" class="form-control"  type="text"
+                    name="paciente" />
+            </div>
+            <div *ngIf="turnosForm.get('paciente')?.pending" class="error-message text-danger">
+                <span>El paciente es obligatorio.</span>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="medico">Médico</label>
+            <div class="input-group">
+                <input formControlName="medico" id="medico" class="form-control"  type="text"
+                    name="medico" />
+            </div>
+            <div *ngIf="turnosForm.get('medico')?.pending" class="error-message text-danger">
+                <span>El medico es obligatorio.</span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="motivo">Motivo</label>
+            <div class="input-group">
+                <input formControlName="motivo" id="motivo" class="form-control"  type="text"
+                    name="motivo" />
+            </div>
+            <div *ngIf="turnosForm.get('motivo')?.pending" class="error-message text-danger">
+                <span>El motivo es obligatorio.</span>
+            </div>
+        </div>
+
+        
+        <div class="mb-3">
+            <label for="prioridad">Prioridad</label>
+            <div class="input-group">
+                <select formControlName="prioridad" class="custom-select form-control-sm mb-3" name="prioridad" aria-label="prioridad">
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                </select>
+            </div>
+            <div *ngIf="turnosForm.get('prioridad')?.pending" class="error-message text-danger">
+                <span>La prioridad es obligatoria.</span>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="consultorio">Consultorio</label>
+            <div class="input-group">
+                <input formControlName="consultorio" id="consultorio" class="form-control"  type="text"
+                    name="consultorio" />
+            </div>
+            <div *ngIf="turnosForm.get('consultorio')?.pending" class="error-message text-danger">
+                <span>El consultorio es obligatorio.</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardar()">Crear</button>
+</div>
