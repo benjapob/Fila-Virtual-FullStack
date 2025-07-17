@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { SocketService } from '../servicios/socket.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
-  selector: 'app-fila-virtual',
-  templateUrl: './fila-virtual.component.html',
-  styleUrls: ['./fila-virtual.component.scss'],
+  selector: 'app-appointments-live',
+  templateUrl: './appointments-live.component.html',
+  styleUrls: ['./appointments-live.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('listAnimation', [
@@ -28,7 +28,7 @@ import { SocketService } from '../servicios/socket.service';
     ])
   ]
 })
-export class FilaVirtualComponent {
+export class AppointmentsLiveComponent {
   // Variables para almacenar los datos
   public pendientesArray:any [] = [];
   public enProcesoArray:any [] = [];

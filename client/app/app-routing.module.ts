@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FilaVirtualComponent } from './fila-virtual/fila-virtual.component';
-import { TurnosComponent } from './turnos/turnos.component';
+import { AppointmentsComponent } from './appointments/appointments.component';
+import { AppointmentsLiveComponent } from './appointments-live/appointments-live.component';
 
 const routes: Routes = [
-  { path: 'fila-virtual', component: FilaVirtualComponent },
-  { path: 'turnos', component: TurnosComponent },
+  { path: 'appointments-live', component: AppointmentsLiveComponent },
+  { path: 'appointments', component: AppointmentsComponent },
 ];
 
 @NgModule({

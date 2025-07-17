@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TurnosService } from 'client/app/servicios/turnos.service';
+import { AppointmentsService } from 'client/app/services/appointments.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-modal-agregar-turno',
-  templateUrl: './modal-agregar-turno.component.html',
-  styleUrls: ['./modal-agregar-turno.component.scss']
+  selector: 'app-add-appointment-modal',
+  templateUrl: './add-appointment-modal.component.html',
+  styleUrls: ['./add-appointment-modal.component.scss']
 })
-export class ModalAgregarTurnoComponent {
+export class AddAppointmentModalComponent {
   
-  turnosForm: FormGroup;
+  appointmentsForm: FormGroup;
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private turnosService: TurnosService) {
-    this.turnosForm = this.fb.group({
+  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private appointmentsService: AppointmentsService) {
+    this.appointmentsForm = this.fb.group({
       motivo: ['', Validators.required],
       prioridad: ['', Validators.required],
       consultorio: ['', Validators.required],
@@ -26,9 +26,9 @@ export class ModalAgregarTurnoComponent {
 
   guardar() {
     // Lógica para guardar el turno
-    if (this.turnosForm.valid) {
-      const turno = this.turnosForm.value;
-      this.turnosService.createTurno(turno).subscribe((response: any) => {        
+    if (this.appointmentsForm.valid) {
+      const turno = this.appointmentsForm.value;
+      this.appointmentsService.createTurno(turno).subscribe((response: any) => {        
         if (response.ok) {
           // Cerrar el modal
           this.activeModal.close({ok: true, turno: response.turno});
@@ -43,9 +43,9 @@ export class ModalAgregarTurnoComponent {
       });
     } else {
       // Mostrar mensaje de error
-      for (const control in this.turnosForm.controls) {
-        if (this.turnosForm.controls[control].invalid) {
-          this.turnosForm.controls[control].markAsPending();
+      for (const control in this.appointmentsForm.controls) {
+        if (this.appointmentsForm.controls[control].invalid) {
+          this.appointmentsForm.controls[control].markAsPending();
         }
       }
 
@@ -56,4 +56,5 @@ export class ModalAgregarTurnoComponent {
       });
     }
   }
+
 }

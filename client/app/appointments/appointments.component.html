@@ -1,0 +1,48 @@
+<div class="container mt-5">
+    <div class="row flex">
+        <div class="col-md-12 ">
+            <h4 class="mb-3 text-white">Appointments Manager</h4>
+        </div>
+        <div class ="col-md-12">
+            <button type="button" class="btn btn-primary" (click)="openModal()">Add Appointment</button>
+        </div>
+    </div>
+    <div *ngIf="appointments.length" class="card mt-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let appointment of appointments">
+                    <th scope="row">{{appointment.code}}</th>
+                    <td>{{appointment.patient}}</td>
+                    <td>{{appointment.doctor}}</td>
+                    <td>{{appointment.status}}</td>
+                    <td>{{appointment.priority}}</td>
+                    <td>
+                        <button class="btn" (click)="updateAppointment(appointment._id)">
+                            <i class="fa-solid fa-pencil text-warning"></i>
+                        </button>
+                        <button class="btn" (click)="cancelAppointment(appointment._id)">
+                            <i class="fa-solid fa-trash text-danger"></i>
+                        </button>
+                        </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mt-3" *ngIf="appointments.length === 0">
+        <ngb-alert [type]="'info'" [dismissible]="false">
+            There's no appointments available.
+        </ngb-alert>
+    </div>
+</div>

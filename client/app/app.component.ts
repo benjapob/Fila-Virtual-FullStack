@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'fila-virtual';
+  title = 'appointments-app';
 
   constructor(public router: Router) { }
 
