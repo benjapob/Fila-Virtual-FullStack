@@ -48,7 +48,7 @@ const appointmentSchema = new Schema<IAppointment>({
         type: String,
         required: true,
     },
-});
+},{timestamps:true});
 
 const Appointment = model<IAppointment>('Appointment', appointmentSchema);
 

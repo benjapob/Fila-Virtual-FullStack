@@ -5,7 +5,7 @@ abstract class BaseCtrl<T> {
     abstract model:Model<T>
 
     //Get all
-    getAll = async (req:Request, res: Response) => {
+    async getAll (req:Request, res: Response) {
         try {
             const docs = await this.model.find({});
             return res.status(200).json(docs);
@@ -15,7 +15,7 @@ abstract class BaseCtrl<T> {
     }
 
     //Count
-    count = async(req:Request, res:Response) => {
+    async count (req:Request, res:Response){
         try {
             const count = await this.model.countDocuments();
             return res.status(200).json(count);
@@ -25,7 +25,7 @@ abstract class BaseCtrl<T> {
     }
 
     //Get by Id
-    get = async (req:Request, res: Response) => {
+    async get (req:Request, res: Response) {
         try {
             const doc = await this.model.findOne({_id: req.params['id']});
             return res.status(200).json(doc);
@@ -35,7 +35,7 @@ abstract class BaseCtrl<T> {
     }
 
     //Insert
-    insert = async (req:Request, res: Response) => {
+    async insert (req:Request, res: Response) {
         try {
             const obj = await new this.model(req.body).save();
             return res.status(201).json(obj);
@@ -45,7 +45,7 @@ abstract class BaseCtrl<T> {
     }
 
     //Update by Id
-    update = async (req:Request, res: Response) => {
+    async update (req:Request, res: Response) {
         try {
             const obj = await this.model.findOneAndUpdate({_id: req.params['id']}, req.body, {new:true});
             return res.status(200).json(obj);
@@ -55,7 +55,7 @@ abstract class BaseCtrl<T> {
     }
 
     //Delete for testing purposes
-    delete = async (req:Request, res: Response) => {
+    async delete (req:Request, res: Response) {
         try {
             await this.model.findOneAndDelete({_id: req.params['id']});
             return res.sendStatus(200);

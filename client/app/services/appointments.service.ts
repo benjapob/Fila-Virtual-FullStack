@@ -8,19 +8,23 @@ export class AppointmentsService {
 
   constructor(private http: HttpClient) { }
 
-  getTurnos() {
+  getAll() {
     return this.http.get('/api/appointments');
   }
 
-  createTurno(turno: any) {
-    return this.http.post('http://localhost:3003/createTurno', turno);
+  getAllActive() {
+    return this.http.get('/api/appointments/status/active');
   }
 
-  deleteTurno(id: any) {
-    return this.http.post('http://localhost:3003/deleteTurno', {id});
+  addAppointment(appointment: any) {
+    return this.http.post('/api/appointment', appointment);
   }
 
-  updateTurno(id: any, estado: string) {
-    return this.http.post('http://localhost:3003/updateTurno', {id, estado});
+  deleteAppointment(id:string) {
+    return this.http.put(`/api/appointment/${id}`, {status:'Canceled'});
+  }
+
+  updateAppointment(id: any, status: string) {
+    return this.http.put(`/api/appointment/${id}`, {status});
   }
 }

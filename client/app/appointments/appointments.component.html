@@ -4,7 +4,7 @@
             <h4 class="mb-3 text-white">Appointments Manager</h4>
         </div>
         <div class ="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="openModal()">Add Appointment</button>
+            <button type="button" class="btn btn-primary" (click)="add()">Add Appointment</button>
         </div>
     </div>
     <div *ngIf="appointments.length" class="card mt-3">
@@ -28,10 +28,10 @@
                     <td>{{appointment.status}}</td>
                     <td>{{appointment.priority}}</td>
                     <td>
-                        <button class="btn" (click)="updateAppointment(appointment._id)">
+                        <button class="btn" (click)="update(appointment._id)">
                             <i class="fa-solid fa-pencil text-warning"></i>
                         </button>
-                        <button class="btn" (click)="cancelAppointment(appointment._id)">
+                        <button class="btn" (click)="cancel(appointment._id)">
                             <i class="fa-solid fa-trash text-danger"></i>
                         </button>
                         </td>

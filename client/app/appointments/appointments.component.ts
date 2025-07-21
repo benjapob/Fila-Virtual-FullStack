@@ -13,77 +13,85 @@ import { AlertsService } from '../services/alerts.service';
 export class AppointmentsComponent {
   public appointments: any[] = [];
   constructor (private appointmentsService: AppointmentsService, private modal: NgbModal, private alertsService: AlertsService) {
-    this.appointmentsService.getTurnos().subscribe((data:any) => {
-      if (data.ok) {
-        this.appointments = data.appointments;
-      } else {
+    this.refreshList();
+  }
+
+  //Function that gets all the appointments
+  refreshList() {
+    this.appointmentsService.getAllActive().subscribe({
+      next: (data:any) => {
+        this.appointments =  data.filter((appointment:any) => appointment.status === 'Arrived' || appointment.status === 'Pending');
+      },
+      error: err => {
         this.alertsService.errorSwal();
       }
     });
   }
 
-  openModal() {
+  //Function that opens add appointment modal
+  add() {
     let modal = this.modal.open(AddAppointmentModalComponent, {
       size: 'xl'});
 
     modal.result.then((data) => {
       if (data.ok) {
-        this.appointments.push(data.turno);
+        //If succesfully added, data is pushed
+        this.appointments.push(data.appointment);
         Swal.fire({
           icon: 'success',
-          title: 'Éxito',
-          text: 'Turno agregado correctamente'
+          title: 'Success',
+          text: 'Appointment added succesfully!'
         });
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo agregar el turno'
-        });
+        this.alertsService.errorSwal();
       }
     
-    },
-    (error) => {
     });
   }
 
-  cancelAppointment(id:string) {
+  //Function to cancel appointment, id required
+  cancel(id:string) {
     Swal.fire({
-      title: "Aviso",
-      text: "Este cambio es irreversible, el turno se eliminará de la lista. ¿Deseas continuar?",
+      title: "Warning",
+      text: "This change is irreversible, the appointment will no longer appear on the list. \nDo you wish to continue?",
       showDenyButton: true,
       icon:'question',
-      confirmButtonText: "Continuar",
-      denyButtonText: `Cancelar`
+      confirmButtonText: "Continue",
+      denyButtonText: `Go back`
     }).then((result) => {
       if (result.isConfirmed) {
-        this.appointmentsService.deleteTurno(id).subscribe((response: any) => {
-          if (response.ok) {
-            //Elimino el elemento del array
-            this.appointments.splice(this.appointments.findIndex(turno => turno._id === id), 1);
-            Swal.fire("Turno eliminado!", "", "success");
-          }
-        });
-      }
-    });
+        this.appointmentsService.deleteAppointment(id).subscribe({
+        next: (data:any) => {
+          //If succesfully updated, appointment is deleted from array
+          this.appointments.splice(this.appointments.findIndex(turno => turno._id === id), 1);
+          Swal.fire("Appointment canceled.", "", "success");
+        },
+        error: err => {
+          console.error(err)
+          this.alertsService.errorSwal();
+        }
+      })
+    }
+  });
   }
 
-  async updateAppointment(id:string) {
+  //Function to update appointment's status, id required
+  async update(id:string) {
 
-    const { value: estado } = await Swal.fire({
-    title: "Cambiar estado",
+    const { value: status } = await Swal.fire({
+    title: "Change status",
     input: "select",
     inputOptions: {
-      espera: "En espera",
-      atencion: "En atención",
-      finalizado: "Finalizado",
+      Pending: "Pending",
+      Arrived: "Arrived",
+      Completed: "Completed",
     },
-    inputPlaceholder: "Selecciona un estado",
+    inputPlaceholder: "Select a status",
     showCancelButton: true,
     inputValidator: (value) => {
       return new Promise((resolve) => {
         if (!value) {
-          resolve("El estado es obligatorio!");
+          resolve("Status is required!");
         } else {
           resolve()
         }
@@ -91,21 +99,16 @@ export class AppointmentsComponent {
     }
     });
 
-    if (estado) {
-      this.appointmentsService.updateTurno(id, estado).subscribe((respuesta:any) => {
-        if (respuesta.ok) {
-          Swal.fire({title:'Estado actualizado', text:'El estado ha sido actualizado correctamente', icon:'success'});
-          this.appointmentsService.getTurnos().subscribe((data:any) => {
-          if (data.ok) {
-            this.appointments = data.appointments;
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'No se pudieron cargar los appointments'
-            });
-          }
-        });
+    if (status) {
+      this.appointmentsService.updateAppointment(id, status).subscribe({
+        next:() => {
+          //If status is updated, the list is refreshed
+          Swal.fire({title:'Status updated', text:'Status has been updated succesfully.', icon:'success'});
+          this.refreshList();
+        },
+        error:err => {
+          console.error(err);
+          this.alertsService.errorSwal();
         }
       })
     }

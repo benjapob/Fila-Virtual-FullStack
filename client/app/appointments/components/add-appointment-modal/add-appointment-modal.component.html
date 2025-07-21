@@ -5,65 +5,65 @@
     <form [formGroup]="appointmentsForm">
         
         <div class="mb-3">
-            <label for="paciente">Paciente</label>
+            <label for="patient">* Patient's name</label>
             <div class="input-group">
-                <input formControlName="paciente" id="paciente" class="form-control"  type="text"
-                    name="paciente" />
+                <input formControlName="patient" id="patient" class="form-control"  type="text"
+                    name="patient" />
             </div>
-            <div *ngIf="appointmentsForm.get('paciente')?.pending" class="error-message text-danger">
-                <span>El paciente es obligatorio.</span>
+            <div *ngIf="appointmentsForm.get('patient')?.pending" class="error-message text-danger">
+                <span>the patient's name is required.</span>
             </div>
         </div>
         
         <div class="mb-3">
-            <label for="medico">Médico</label>
+            <label for="doctor">* Doctor's name</label>
             <div class="input-group">
-                <input formControlName="medico" id="medico" class="form-control"  type="text"
-                    name="medico" />
+                <input formControlName="doctor" id="doctor" class="form-control"  type="text"
+                    name="doctor" />
             </div>
-            <div *ngIf="appointmentsForm.get('medico')?.pending" class="error-message text-danger">
-                <span>El medico es obligatorio.</span>
+            <div *ngIf="appointmentsForm.get('doctor')?.pending" class="error-message text-danger">
+                <span>The doctor's name is required.</span>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="motivo">Motivo</label>
+            <label for="reason">* Reason for the appointment.</label>
             <div class="input-group">
-                <input formControlName="motivo" id="motivo" class="form-control"  type="text"
-                    name="motivo" />
+                <input formControlName="reason" id="reason" class="form-control"  type="text"
+                    name="reason" />
             </div>
-            <div *ngIf="appointmentsForm.get('motivo')?.pending" class="error-message text-danger">
-                <span>El motivo es obligatorio.</span>
+            <div *ngIf="appointmentsForm.get('reason')?.pending" class="error-message text-danger">
+                <span>The reason for the appointment is required.</span>
             </div>
         </div>
 
         
         <div class="mb-3">
-            <label for="prioridad">Prioridad</label>
+            <label for="priority">* Priority</label>
             <div class="input-group">
-                <select formControlName="prioridad" class="custom-select form-control-sm mb-3" name="prioridad" aria-label="prioridad">
-                    <option value="Baja">Baja</option>
-                    <option value="Media">Media</option>
-                    <option value="Alta">Alta</option>
+                <select formControlName="priority" class="custom-select form-control-sm mb-3" name="priority" aria-label="priority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
                 </select>
             </div>
-            <div *ngIf="appointmentsForm.get('prioridad')?.pending" class="error-message text-danger">
-                <span>La prioridad es obligatoria.</span>
+            <div *ngIf="appointmentsForm.get('priority')?.pending" class="error-message text-danger">
+                <span>The priority is required.</span>
             </div>
         </div>
         
         <div class="mb-3">
-            <label for="consultorio">Consultorio</label>
+            <label for="medicalCenter">* Medical Center</label>
             <div class="input-group">
-                <input formControlName="consultorio" id="consultorio" class="form-control"  type="text"
-                    name="consultorio" />
+                <input formControlName="medicalCenter" id="medicalCenter" class="form-control"  type="text"
+                    name="medicalCenter" />
             </div>
-            <div *ngIf="appointmentsForm.get('consultorio')?.pending" class="error-message text-danger">
-                <span>El consultorio es obligatorio.</span>
+            <div *ngIf="appointmentsForm.get('medicalCenter')?.pending" class="error-message text-danger">
+                <span>The medical center is required.</span>
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="guardar()">Crear</button>
+    <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
 </div>
