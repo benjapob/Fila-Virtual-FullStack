@@ -46,7 +46,7 @@
             <!-- If there's appointments, build the cards -->
             <div *ngIf="arrivedAppointments.length > 0 else noArrived">
                 <!-- TrackById for better performance -->
-                <div class="row mb-3" *ngFor="let arrived of arrivedAppointments trackBy: trackById" @listAnimation2>
+                <div class="row mb-3" *ngFor="let arrived of arrivedAppointments trackBy: trackById" @listAnimation>
                     <div class="col-md-12">
                         <!-- Carta info -->
                         <div class="card">

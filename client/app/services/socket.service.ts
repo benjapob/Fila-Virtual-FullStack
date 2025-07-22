@@ -10,14 +10,14 @@ export class SocketService {
   constructor() {
     this.socket = io('http://localhost:3000');
   }
-  
-  emitir(evento:string, msg?: any): void {    
-    this.socket.emit(evento, msg);
+
+  emit(event:string, msg?: any): void {    
+    this.socket.emit(event, msg);
   }
 
-  recibir(evento:string): Observable<any> {
+  get(event:string): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on(evento, (data: any) => {
+      this.socket.on(event, (data: any) => {
         observer.next(data);
       });
     });

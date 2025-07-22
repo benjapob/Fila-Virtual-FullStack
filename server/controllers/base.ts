@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Model} from "mongoose";
+import { io } from "../app";
 
 abstract class BaseCtrl<T> {
     abstract model:Model<T>
@@ -38,6 +39,7 @@ abstract class BaseCtrl<T> {
     async insert (req:Request, res: Response) {
         try {
             const obj = await new this.model(req.body).save();
+            io.emit('newAppointment', obj); // Emit the new appointment to the socket
             return res.status(201).json(obj);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});      
@@ -48,6 +50,11 @@ abstract class BaseCtrl<T> {
     async update (req:Request, res: Response) {
         try {
             const obj = await this.model.findOneAndUpdate({_id: req.params['id']}, req.body, {new:true});
+            if (!obj) {
+                return res.status(404).json({error: "Appointment not found"});
+            }
+            // Emit the updated appointment to the socket
+            io.emit('updatedAppointment', obj);            
             return res.status(200).json(obj);
         } catch (error) {
             return res.status(400).json({error:(error as Error).message});      

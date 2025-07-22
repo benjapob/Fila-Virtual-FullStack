@@ -41,4 +41,4 @@ if (process.env['NODE_ENV'] !== 'test') {
   main();
 }
 
-export { app };
+export { app, io };

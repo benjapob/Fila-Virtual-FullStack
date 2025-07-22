@@ -18,15 +18,6 @@ import { AppointmentsService } from '../services/appointments.service';
         animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 })) // Sale suavemente
       ])
     ]),
-    trigger('listAnimation2', [
-      transition(':enter', [
-        style({ transform: 'translateX(-100%)', opacity: 0 }), // Empieza fuera de la pantalla
-        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 })) // Entra suavemente
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 })) // Sale suavemente
-      ])
-    ])
   ]
 })
 export class AppointmentsLiveComponent {
@@ -35,24 +26,37 @@ export class AppointmentsLiveComponent {
   public arrivedAppointments:any [] = [];
   constructor(private webSocket: SocketService, private appointmentService: AppointmentsService) {
     this.loadAppointments();
-    // Incializa la conexión al socket
+    // Subscribe to the WebSocket events to receive real-time updates
     this.webSocket
-      .recibir("actualizacionFila")
-      .subscribe((socket: any) => {
-        if ("pendingAppointments" in socket) {
-          const nuevosDatos = socket.pendingAppointments
-            .sort((a: { fecha_update: string | number | Date; }, b: { fecha_update: string | number | Date; }) => new Date(a.fecha_update).getTime() - new Date(b.fecha_update).getTime());
-            this.pendingAppointments = nuevosDatos;
+      .get("newAppointment")
+      .subscribe((appointment: any) => {
+        this.pendingAppointments.push(appointment);
+        console.log('Nuevo pendiente recibido:', appointment);
+      });
+    this.webSocket
+      .get("updatedAppointment")
+      .subscribe((appointment:any) => {
+          this.removeAppointment(appointment);
+        // Update the appointment in the pending or arrived list
+        if (appointment.status === 'Pending') {
+          const index = this.pendingAppointments.findIndex((a: any) => a._id === appointment._id);
+          if (index === -1) {
+            this.pendingAppointments.push(appointment);
+          }
+        } else if (appointment.status === 'Arrived') {
+          const index = this.arrivedAppointments.findIndex((a: any) => a._id === appointment._id);
+          if (index === -1) {
+            this.arrivedAppointments.push(appointment);
+          }
         }
-        if ("arrivedAppointments" in socket) {
-          const nuevosDatos = socket.arrivedAppointments
-            .sort((a: { updatedAt: string | number | Date; }, b: { updatedAt: string | number | Date; }) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+      });
+  }
 
-            this.arrivedAppointments = nuevosDatos;
-        }
-        // console.log(this.entregadoSala);
-        // console.log(this.pickingProceso);
-      });    
+  //Function to remove an appointment from both lists
+  removeAppointment(appointment: any) {
+    this.pendingAppointments = this.pendingAppointments.filter((a: any) => a._id !== appointment._id);
+    this.arrivedAppointments = this.arrivedAppointments.filter((a: any) => a._id !== appointment._id);
+    console.log('Cita eliminada:', appointment);
   }
 
   //Function to load the appointments
@@ -60,10 +64,10 @@ export class AppointmentsLiveComponent {
     this.appointmentService.getAll().subscribe((data:any) => {
       // Filter appointments by status
       this.pendingAppointments = data.filter((appointment: any) => appointment.status === 'Pending')
-        .sort((a: { createdAt: string | number | Date; }, b: { createdAt: string | number | Date; }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        .sort((a: { createdAt: Date; }, b: { createdAt: Date; }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       
       this.arrivedAppointments = data.filter((appointment: any) => appointment.status === 'Arrived')
-        .sort((a: { updatedAt: string | number | Date; }, b: { updatedAt: string | number | Date; }) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+        .sort((a: { updatedAt: Date; }, b: { updatedAt: Date; }) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
     });
   }
 
