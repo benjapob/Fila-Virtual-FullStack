@@ -1,56 +1,66 @@
-<div class="contenedor">
-    <div class="row container-fluid">
+<div class="container">
+    <div class="row ">
         
-        <!-- Items Pendientes -->
+        <!-- Pending appointments -->
         <div class="col-md-8">
             <div class="row" style="flex-direction: column;">
-                <h2 class="text-center text-white">Pendientes</h2>
+                <h2 class="text-center text-white">Pending</h2>
             </div>
-            <!-- Si hay items, armo las tarjetas -->
-            <!-- Se usa trackBy para mejorar el rendimiento -->
-            <div class="row mb-3" *ngFor="let pendiente of pendientesArray trackBy: trackById" @listAnimation>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <div class="row icono">
-                                            <i class="fa-regular fa-file-lines"></i>
+            <!-- If there's appointments, build the cards -->
+             <div *ngIf="pendingAppointments.length > 0 else noPending">
+                <!-- TrackById for better performance -->
+                <div class="row mb-3" *ngFor="let pending of pendingAppointments trackBy: trackById" @listAnimation>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <div class="row icon">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3 class="numero">{{pendiente.numeroTurno}} - {{pendiente.paciente}}</h3>
+                                        <div class="media-body text-right">
+                                            <h3 class="number">{{pending.code}} - {{pending.patient}}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div>  
+             </div>
+            <!-- Template for no pending appointments -->
+            <ng-template #noPending>
+                <ngb-alert class="text-center" type="info" [dismissible]="false">
+                    <strong>No pending appointments at the moment.</strong>
+                </ngb-alert>
+            </ng-template>
         </div>
 
-        <!-- Items En Proceso -->
+        <!-- Arrived Appointments -->
         <div class="col-md-4">
             <div class="row" style="flex-direction: column;">
-                <h2 class="text-center text-white">En Proceso</h2>
+                <h2 class="text-center text-white">Arrived</h2>
             </div>
-            <!-- Si hay items, armo las tarjetas -->
-            <!-- Se usa trackBy para mejorar el rendimiento -->
-            <div class="row mb-3" *ngFor="let enProceso of enProcesoArray trackBy: trackById" @listAnimation2>
-                <div class="col-md-12">
-                    <!-- Carta info -->
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <div class="row icono">
-                                            <i class="fa-regular fa-file-lines"></i>
+            <!-- If there's appointments, build the cards -->
+            <div *ngIf="arrivedAppointments.length > 0 else noArrived">
+                <!-- TrackById for better performance -->
+                <div class="row mb-3" *ngFor="let arrived of arrivedAppointments trackBy: trackById" @listAnimation2>
+                    <div class="col-md-12">
+                        <!-- Carta info -->
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <div class="row icon">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3 class="numero">{{enProceso.numeroTurno}} - {{enProceso.paciente}}</h3>
+                                        <div class="media-body text-right">
+                                            <h3 class="number">{{arrived.code}} - {{arrived.patient}}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -58,6 +68,12 @@
                     </div>
                 </div>
             </div>
+            <!-- Template for no arrived appointments -->
+            <ng-template #noArrived>
+                <ngb-alert class="text-center" type="info" [dismissible]="false">
+                    <strong>No arrived appointments at the moment.</strong>
+                </ngb-alert>
+            </ng-template>
         </div>
     </div>
 </div>

@@ -50,7 +50,7 @@ class AppointmentCtrl extends BaseCtrl<IAppointment> {
     
   }
 
-  //Override getall to filter by status
+  //New function getActive to filter by status
   async getActive(req:Request, res:Response) {
     try {
         const docs = await this.model.find({status:{$in:['Pending', 'Arrived']}});

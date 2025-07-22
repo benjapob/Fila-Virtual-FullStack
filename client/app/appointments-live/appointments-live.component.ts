@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { SocketService } from '../services/socket.service';
+import { AppointmentsService } from '../services/appointments.service';
 
 @Component({
   selector: 'app-appointments-live',
@@ -29,30 +30,44 @@ import { SocketService } from '../services/socket.service';
   ]
 })
 export class AppointmentsLiveComponent {
-  // Variables para almacenar los datos
-  public pendientesArray:any [] = [];
-  public enProcesoArray:any [] = [];
-  constructor(private webSocket: SocketService) {
+  // Public properties to hold the appointments data
+  public pendingAppointments:any [] = [];
+  public arrivedAppointments:any [] = [];
+  constructor(private webSocket: SocketService, private appointmentService: AppointmentsService) {
+    this.loadAppointments();
     // Incializa la conexión al socket
     this.webSocket
-      .escuchar("actualizacionFila")
+      .recibir("actualizacionFila")
       .subscribe((socket: any) => {
-        if ("pendientesArray" in socket) {
-          const nuevosDatos = socket.pendientesArray
+        if ("pendingAppointments" in socket) {
+          const nuevosDatos = socket.pendingAppointments
             .sort((a: { fecha_update: string | number | Date; }, b: { fecha_update: string | number | Date; }) => new Date(a.fecha_update).getTime() - new Date(b.fecha_update).getTime());
-            this.pendientesArray = nuevosDatos;
+            this.pendingAppointments = nuevosDatos;
         }
-        if ("enProcesoArray" in socket) {
-          const nuevosDatos = socket.enProcesoArray
+        if ("arrivedAppointments" in socket) {
+          const nuevosDatos = socket.arrivedAppointments
             .sort((a: { updatedAt: string | number | Date; }, b: { updatedAt: string | number | Date; }) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
 
-            this.enProcesoArray = nuevosDatos;
+            this.arrivedAppointments = nuevosDatos;
         }
         // console.log(this.entregadoSala);
         // console.log(this.pickingProceso);
       });    
   }
 
+  //Function to load the appointments
+  loadAppointments() {
+    this.appointmentService.getAll().subscribe((data:any) => {
+      // Filter appointments by status
+      this.pendingAppointments = data.filter((appointment: any) => appointment.status === 'Pending')
+        .sort((a: { createdAt: string | number | Date; }, b: { createdAt: string | number | Date; }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      
+      this.arrivedAppointments = data.filter((appointment: any) => appointment.status === 'Arrived')
+        .sort((a: { updatedAt: string | number | Date; }, b: { updatedAt: string | number | Date; }) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+    });
+  }
+
+  //Function to track items by their id
   trackById(index: number, item: any): any {
     return item.id;
   }
