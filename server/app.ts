@@ -20,7 +20,7 @@ app.set('port', (process.env['PORT'] || 3000));
 app.use('/', express.static(pathJoin(__dirname, '../public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-if (process.env['NODE_ENV'] !== 'test') {
+if (process.env['NODE_ENV'] === 'test') {
   app.use(morgan('dev'));
 }
 
@@ -37,8 +37,6 @@ const main = async (): Promise<void> => {
   }
 };
 
-if (process.env['NODE_ENV'] !== 'test') {
-  main();
-}
+main();
 
 export { app, io };

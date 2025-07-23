@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "dev": "concurrently \"ng serve --open\" \"ts-node-dev server/app.ts\" ",
+    "prod": "concurrently \"ng build\" \"tsc -p server && node dist/server/app.js\"",
     "build": "ng build && tsc -p server",
     "test": "ng test"
   },
