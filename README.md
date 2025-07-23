@@ -82,9 +82,9 @@ In `Real Time Appointments`, you can see the queue update in real-time.
 
 **GIFs**:
 
-<img client="client/assets/agregar.gif"/>
+<img src="client/assets/agregar.gif"/>
 
-<img client="client/assets/editar.gif"/>
+<img src="client/assets/editar.gif"/>
 
 ## 👨‍💻 Autor / Author
 * [Benjamin Poblete](https://github.com/benjapob)
